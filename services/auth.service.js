@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 const { config } = require('./../config/config');
 const UserService = require('./user.service');
@@ -19,6 +19,7 @@ class AuthService {
       throw boom.unauthorized();;
     }
     delete user.dataValues.password;
+    delete user.dataValues.recoveryToken;
     return user;
   }
 
@@ -34,24 +35,24 @@ class AuthService {
     };
   }
 
-  // async sendRecovery(email) {
-  //   const user = await service.findByEmail(email);
-  //   if (!user) {
-  //     throw boom.unauthorized();
-  //   }
-  //   const payload = { sub: user.id };
-  //   const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
-  //   const link = `http://myfrontend.com/recovery?token=${token}`;
-  //   await service.update(user.id, {recoveryToken: token});
-  //   const mail = {
-  //     from: config.smtpEmail,
-  //     to: `${user.email}`,
-  //     subject: "Email para recuperar contraseña",
-  //     html: `<b>Ingresa a este link => ${link}</b>`,
-  //   }
-  //   const rta = await this.sendMail(mail);
-  //   return rta;
-  // }
+  async sendRecovery(email) {
+    const user = await service.findByEmail(email);
+    if (!user) {
+      throw boom.unauthorized();
+    }
+    const payload = { sub: user.id };
+    const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
+    const link = `http://myfrontend.com/recovery?token=${token}`;
+    await service.update(user.id, {recoveryToken: token});
+    const mail = {
+      from: config.smtpEmail,
+      to: `${user.email}`,
+      subject: "Email para recuperar contraseña",
+      html: `<b>Ingresa a este link => ${link}</b>`,
+    }
+    const rta = await this.sendMail(mail);
+    return rta;
+  }
 
   async changePassword(token, newPassword) {
     try {
