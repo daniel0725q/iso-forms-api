@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
-
+const { ROLE_TABLE } = require('./role.model')
 const USER_TABLE = 'users';
 
 const UserSchema = {
@@ -24,10 +24,17 @@ const UserSchema = {
     allowNull: true,
     type: DataTypes.STRING
   },
-  role: {
+  roleId: {
+    field: 'role_id',
     allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'operador'
+    type: Sequelize.DataTypes.INTEGER,
+    unique: true,
+    references: {
+      model: ROLE_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   },
   createdAt: {
     allowNull: false,
@@ -38,8 +45,16 @@ const UserSchema = {
 }
 
 class User extends Model {
-  static associate(models) {
-    this.hasOne(models.Customer, {
+  // static associate(models) {
+  //   this.belongsTo(models.Role, { foreignKey: 'roleId' });
+  //   this.hasOne(models.Customer, {
+  //     as: 'customer',
+  //     foreignKey: 'userId'
+  //   });
+  // }
+static associate(models) {
+    this.belongsTo(models.Role, {foreignKey: 'roleId'});
+      this.hasOne(models.Customer, {
       as: 'customer',
       foreignKey: 'userId'
     });

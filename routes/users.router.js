@@ -31,8 +31,8 @@ router.get('/:id',
 );
 
 router.post('/',
-  password.authenticate('jwt', {session: false}),
-  checkRoles('admin'),
+  // password.authenticate('jwt', {session: false}),
+  // checkRoles('admin'),
   validatorHandler(createUserSchema, 'body'),
   async (req, res, next) => {
     try {
