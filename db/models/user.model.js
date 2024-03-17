@@ -1,6 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { ROLE_TABLE } = require('./role.model')
+const { COMPANY_TABLE } = require('./company.model')
+const { ROLE_TABLE } =  require('./role.model');
 const USER_TABLE = 'users';
 
 const UserSchema = {
@@ -36,6 +37,18 @@ const UserSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  companyId: {
+    field: 'company_id',
+    allowNull: false,
+    type: Sequelize.DataTypes.INTEGER,
+    unique: true,
+    references: {
+      model: ROLE_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
@@ -54,7 +67,11 @@ class User extends Model {
   // }
 static associate(models) {
     this.belongsTo(models.Role, {foreignKey: 'roleId'});
-      this.hasOne(models.Customer, {
+    this.belongsTo(models.Company, {
+      as: 'company',
+      foreignKey: 'companyId'}
+    );
+    this.hasOne(models.Customer, {
       as: 'customer',
       foreignKey: 'userId'
     });

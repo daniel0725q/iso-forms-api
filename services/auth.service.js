@@ -20,18 +20,20 @@ class AuthService {
     }
     delete user.dataValues.password;
     delete user.dataValues.recoveryToken;
+    delete user.dataValues.company;
     return user;
   }
 
-  signToken(user) {
+  async signToken(user) {
+    const u = await service.findByEmail(user);
     const payload = {
       uid: user.id,
-      role: user.role
+      role: u.role
     }
     const token = jwt.sign(payload, config.jwtSecret);
     return {
       user,
-      token,
+      token
     };
   }
 
@@ -74,8 +76,6 @@ class AuthService {
       const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.uid);
       var matches = await bcrypt.compare(password, user.password);
-      console.log(user.password);
-      console.log(matches);
       if (!matches) {
         throw boom.internal();
       }

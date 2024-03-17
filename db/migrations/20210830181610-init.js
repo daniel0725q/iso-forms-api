@@ -3,6 +3,7 @@
 const { USER_TABLE } = require('./../models/user.model');
 const { CUSTOMER_TABLE } = require('./../models/customer.model');
 const { ROLE_TABLE } = require('./../models/role.model');
+const { COMPANY_TABLE } = require('../models/company.model');
 
 
 module.exports = {
@@ -18,6 +19,29 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
         unique: true,
+      }
+    });
+    await queryInterface.createTable(COMPANY_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: false,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      name: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
+      },
+      socialName: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        unique: false,
+      },
+      logo: {
+        allowNull: true,
+        type: Sequelize.DataTypes.TEXT,
+        unique: false,
       }
     });
     await queryInterface.createTable(USER_TABLE, {
@@ -43,6 +67,18 @@ module.exports = {
         unique: true,
         references: {
           model: ROLE_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      companyId: {
+        field: 'company_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        unique: true,
+        references: {
+          model: COMPANY_TABLE,
           key: 'id'
         },
         onUpdate: 'CASCADE',
