@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const id = Joi.string();
+const id = Joi.number().integer();
 const name = Joi.string().min(3).max(100);
 const socialName = Joi.string().min(3).max(100);
 const logo =  Joi.string();
@@ -16,9 +16,14 @@ const createCompanySchema = Joi.object({
 });
 
 const updateCompanySchema = Joi.object({
-  id,
+  id: id.required(),
   name,
   socialName,
+  logo
+});
+
+const updateLogoCompanySchema = Joi.object({
+  id,
   logo
 });
 

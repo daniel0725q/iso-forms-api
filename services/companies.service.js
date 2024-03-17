@@ -12,16 +12,14 @@ class CompaniesService {
 
   async findOne(id) {
     const company = await models.Company.findByPk(id);
-    if (!user) {
+    if (!company) {
       throw boom.notFound('customer not found');
     }
     return company;
   }
 
   async create(data) {
-    const newCompany = await models.Customer.create(data, {
-      include: ['company']
-    });
+    const newCompany = await models.Company.create(data);
     return newCompany;
   }
 
@@ -34,7 +32,7 @@ class CompaniesService {
   async delete(id) {
     const model = await this.findOne(id);
     await model.destroy();
-    return { rta: true };
+    return { deleted: true };
   }
 
 }
