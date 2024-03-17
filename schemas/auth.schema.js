@@ -16,13 +16,25 @@ const recoveryAuthSchema = Joi.object({
   email: email.required(),
 });
 
-const changePasswordAuthSchema = Joi.object({
+const recoverPasswordAuthSchema = Joi.object({
   token: token.required(),
+  password: password.required(),
+});
+
+const changePasswordAuthSchema = Joi.object({
+  token: token.required,
+  password: password.required(),
   newPassword: newPassword.required(),
+});
+
+const isAdminAuthSchema = Joi.object({
+  token: token.required()
 });
 
 module.exports = {
   loginAuthSchema,
   recoveryAuthSchema,
+  recoverPasswordAuthSchema,
   changePasswordAuthSchema,
+  isAdminAuthSchema
 };
