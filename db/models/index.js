@@ -11,6 +11,7 @@ function setupModels(sequelize) {
   Company.init(CompanySchema, Company.config(sequelize));
   Role.init(RoleSchema, Role.config(sequelize));
   User.associate(sequelize.models);
+  Company.associate(sequelize.models);
   Customer.associate(sequelize.models);
 }
 

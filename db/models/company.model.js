@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const COMPANY_TABLE = 'company';
+const COMPANY_TABLE = 'companies';
 
 const CompanySchema = {
   id: {
@@ -33,8 +33,7 @@ class Company extends Model {
   // }
 static associate(models) {
     this.hasMany(models.User, {
-      as: 'customer',
-      foreignKey: 'userId'
+      foreignKey: 'companyId'
     });
   }
 

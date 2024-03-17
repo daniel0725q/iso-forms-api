@@ -15,7 +15,7 @@ const router = express.Router();
 const service = new CompaniesService();
 
 router.get('/',password.authenticate('jwt', {session: false}),
-  checkRoles('admin'),
+  checkRoles(1),
   async (req, res, next) => {
     try {
       res.json(await service.find());

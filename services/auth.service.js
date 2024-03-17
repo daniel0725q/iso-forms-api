@@ -18,17 +18,17 @@ class AuthService {
     if (!isMatch) {
       throw boom.unauthorized();;
     }
-    delete user.dataValues.password;
-    delete user.dataValues.recoveryToken;
-    delete user.dataValues.company;
+    delete user.password;
+    delete user.recoveryToken;
     return user;
   }
 
   async signToken(user) {
-    const u = await service.findByEmail(user);
+    const u = await service.findOne(user);
+    console.log(u);
     const payload = {
-      uid: user.id,
-      role: u.role
+      uid: u.id,
+      role: u.roleId
     }
     const token = jwt.sign(payload, config.jwtSecret);
     return {

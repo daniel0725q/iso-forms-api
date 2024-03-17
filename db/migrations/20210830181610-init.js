@@ -141,5 +141,6 @@ module.exports = {
     await queryInterface.dropTable(CUSTOMER_TABLE);
     await queryInterface.dropTable(USER_TABLE);
     await queryInterface.dropTable(ROLE_TABLE);
+    await queryInterface.dropTable(COMPANY_TABLE);
   }
 };

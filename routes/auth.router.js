@@ -17,8 +17,8 @@ validatorHandler(loginAuthSchema, 'body'),
   passport.authenticate('local', {session: false}),
   async (req, res, next) => {
     try {
-      const user = req.user;
-      const token = await service.signToken(user);
+      const id = req.user.id;
+      const token = await service.signToken(id);
       res.json(token);
     } catch (error) {
       next(error);
@@ -58,7 +58,6 @@ validatorHandler(changePasswordAuthSchema, 'body'),
     try {
       var token = req.headers.authorization;
       token = token.substring(7);
-      console.log(token);
       const { password, newPassword } = req.body;
       const rta = await service.changePassword(token, password, newPassword);
       res.json(rta);

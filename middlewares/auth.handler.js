@@ -13,7 +13,7 @@ const { config } = require('./../config/config');
 
 function checkAdminRole(req, res, next) {
   const user = req.user;
-  if (user.role === 'admin') {
+  if (user.role === 1) {
     next();
   } else {
     next(boom.unauthorized());
@@ -23,6 +23,8 @@ function checkAdminRole(req, res, next) {
 function checkRoles(...roles) {
   return (req, res, next) => {
     const user = req.user;
+    console.log(roles);
+    console.log(user.role);
     if (roles.includes(user.role)) {
       next();
     } else {

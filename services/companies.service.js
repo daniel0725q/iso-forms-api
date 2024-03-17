@@ -6,9 +6,7 @@ class CompaniesService {
   constructor() {}
 
   async find() {
-    const rta = await models.Company.findAll({
-      include: ['company']
-    });
+    const rta = await models.Company.findAll();
     return rta;
   }
 
