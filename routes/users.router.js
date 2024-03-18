@@ -8,7 +8,10 @@ const { checkRoles } = require('./../middlewares/auth.handler');
 const router = express.Router();
 const service = new UserService();
 
-router.get('/', async (req, res, next) => {
+router.get('/',
+password.authenticate('jwt', {session: false}),
+  checkRoles(1),
+  async (req, res, next) => {
   try {
     const users = await service.find();
     res.json(users);
@@ -18,6 +21,8 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id',
+  password.authenticate('jwt', {session: false}),
+  checkRoles(1),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -33,6 +38,8 @@ router.get('/:id',
 router.post('/',
   // password.authenticate('jwt', {session: false}),
   // checkRoles('admin'),
+  password.authenticate('jwt', {session: false}),
+  checkRoles(1),
   validatorHandler(createUserSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -46,6 +53,8 @@ router.post('/',
 );
 
 router.patch('/:id',
+  password.authenticate('jwt', {session: false}),
+  checkRoles(1),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
@@ -61,6 +70,8 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  password.authenticate('jwt', {session: false}),
+  checkRoles(1),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
