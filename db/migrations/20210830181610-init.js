@@ -64,7 +64,6 @@ module.exports = {
         field: 'role_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
-        unique: true,
         references: {
           model: ROLE_TABLE,
           key: 'id'
@@ -76,7 +75,6 @@ module.exports = {
         field: 'company_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
-        unique: true,
         references: {
           model: COMPANY_TABLE,
           key: 'id'

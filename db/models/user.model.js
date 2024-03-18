@@ -29,7 +29,6 @@ const UserSchema = {
     field: 'role_id',
     allowNull: false,
     type: Sequelize.DataTypes.INTEGER,
-    unique: true,
     references: {
       model: ROLE_TABLE,
       key: 'id'
@@ -41,7 +40,6 @@ const UserSchema = {
     field: 'company_id',
     allowNull: false,
     type: Sequelize.DataTypes.INTEGER,
-    unique: true,
     references: {
       model: ROLE_TABLE,
       key: 'id'
