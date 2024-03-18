@@ -17,9 +17,9 @@ const createCompanySchema = Joi.object({
 
 const updateCompanySchema = Joi.object({
   id: id.required(),
-  name,
-  socialName,
-  logo
+  name: name.required(),
+  socialName: socialName.required(),
+  logo: logo.required()
 });
 
 const updateLogoCompanySchema = Joi.object({

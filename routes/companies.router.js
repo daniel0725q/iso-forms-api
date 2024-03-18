@@ -24,6 +24,16 @@ router.get('/',password.authenticate('jwt', {session: false}),
     }
 });
 
+router.get('/:id',password.authenticate('jwt', {session: false}),
+  checkRoles(1),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.json(await service.findOne(id));
+    } catch (error) {
+      next(error);
+    }
+});
 
 router.post('/',
 password.authenticate('jwt', {session: false}),
@@ -47,6 +57,7 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
+      console.log(body);
       res.status(201).json(await service.update(id, body));
     } catch (error) {
       next(error);

@@ -6,7 +6,7 @@ const CompanySchema = {
     allowNull: false,
     autoIncrement: false,
     primaryKey: true,
-    type: DataTypes.STRING
+    type: DataTypes.INTEGER
   },
   name: {
     allowNull: false,
