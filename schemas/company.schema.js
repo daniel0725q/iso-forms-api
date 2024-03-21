@@ -4,6 +4,7 @@ const id = Joi.number().integer();
 const name = Joi.string().min(3).max(100);
 const socialName = Joi.string().min(3).max(100);
 const logo =  Joi.string();
+const hasLogo = Joi.boolean();
 
 const getCompanySchema = Joi.object({
   id: id.required(),
@@ -28,4 +29,8 @@ const updateLogoCompanySchema = Joi.object({
   logo
 });
 
-module.exports = { getCompanySchema, createCompanySchema, updateCompanySchema };
+const companyHasLogo = Joi.object({
+  hasLogo
+})
+
+module.exports = { getCompanySchema, createCompanySchema, updateCompanySchema, companyHasLogo };

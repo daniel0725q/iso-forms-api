@@ -10,6 +10,12 @@ class CompaniesService {
     return rta;
   }
 
+  async findNoLogo() {
+    const rta = await models.Company.findAll({attributes: 
+      {exclude: ['logo']}});
+    return rta;
+  }
+
   async findOne(id) {
     const company = await models.Company.findByPk(id);
     if (!company) {

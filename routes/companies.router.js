@@ -9,6 +9,7 @@ const {
   createCompanySchema,
   getCompanySchema,
   updateCompanySchema,
+  companyHasLogo,
 } = require('../schemas/company.schema');
 
 const router = express.Router();
@@ -16,9 +17,15 @@ const service = new CompaniesService();
 
 router.get('/',password.authenticate('jwt', {session: false}),
   checkRoles(1),
+  validationHandler(companyHasLogo, 'query'),
   async (req, res, next) => {
     try {
-      res.json(await service.find());
+      const { hasLogo } = req.query;
+      if (hasLogo == 'true') {
+        res.json(await service.find());
+      } else {
+        res.json(await service.findNoLogo());
+      }
     } catch (error) {
       next(error);
     }

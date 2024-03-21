@@ -1,6 +1,7 @@
 const boom = require('@hapi/boom');
 
 const { models } = require('./../libs/sequelize');
+const { Company } = require('../db/models/company.model');
 
 class UserService {
   constructor() {}
@@ -12,7 +13,12 @@ class UserService {
   }
 
   async find() {
-    const rta = await models.User.findAll({attributes: {exclude: ['password']}})
+    const rta = await models.User.findAll(
+      {include: [{model: models.Company, as: 'company'},
+    {model: models.Role, as: 'role'}],
+        attributes: 
+        {exclude: ['password', 'createdAt', 'companyId', 'recoveryToken'],
+      }})
     return rta;
   }
 

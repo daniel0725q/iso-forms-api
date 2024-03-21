@@ -79,6 +79,7 @@ class AuthService {
       if (!matches) {
         throw boom.internal();
       }
+      console.log(matches);
       const hash = await bcrypt.hash(newPassword, 10);
       await service.update(user.id, {recoveryToken: null, password: hash});
       return { message: 'password changed' };
