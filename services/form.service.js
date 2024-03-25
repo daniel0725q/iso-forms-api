@@ -12,7 +12,8 @@ class FormService {
 
   async findOne(id) {
     const form = await models.Form.findByPk(id, {
-      include: [{model: models.FormTemplate, as: 'formTemplate'}],
+      include: [{model: models.FormTemplate, as: 'formTemplate'},
+      {model: models.User, as: 'user'}],
         attributes: {exclude: ['form_id']}
     });
     if (!form) {
