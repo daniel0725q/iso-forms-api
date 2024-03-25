@@ -7,7 +7,7 @@ const passport = require('passport')
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: '200000kb' }));
 
 const whitelist = ['http://localhost:8080', 'https://myapp.co', 'http://localhost:3000', 'http://127.0.0.1:8080'];
 const options = {

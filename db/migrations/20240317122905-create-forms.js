@@ -1,12 +1,12 @@
 'use strict';
 
-const { FORM_TABLE } = require('../models/form.model')
+const { FORM_TEMPLATE_TABLE } = require('../models/formTemplate.model')
 const { COMPANY_TABLE } = require('../models/company.model')
 
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable(FORM_TABLE, {
+    await queryInterface.createTable(FORM_TEMPLATE_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,17 +21,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.JSON
       },
-      companyId: {
-        field: 'companyId',
+      title: {
         allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        unique: true,
-        references: {
-          model: COMPANY_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        type: Sequelize.DataTypes.STRING
+      },
+      code: {
+        allowNull: false,
+        type: Sequelize.DataTypes.STRING
+      },
+      type: {
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER
       }
     });
   },
