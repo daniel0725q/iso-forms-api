@@ -18,20 +18,22 @@ class AuthService {
     if (!isMatch) {
       throw boom.unauthorized();;
     }
-    delete user.dataValues.password;
-    delete user.dataValues.recoveryToken;
+    delete user.password;
+    delete user.recoveryToken;
     return user;
   }
 
-  signToken(user) {
+  async signToken(user) {
+    const u = await service.findOne(user);
+    console.log(u);
     const payload = {
-      uid: user.id,
-      role: user.role
+      uid: u.id,
+      role: u.roleId
     }
     const token = jwt.sign(payload, config.jwtSecret);
     return {
       user,
-      token,
+      token
     };
   }
 
@@ -74,11 +76,10 @@ class AuthService {
       const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.uid);
       var matches = await bcrypt.compare(password, user.password);
-      console.log(user.password);
-      console.log(matches);
       if (!matches) {
         throw boom.internal();
       }
+      console.log(matches);
       const hash = await bcrypt.hash(newPassword, 10);
       await service.update(user.id, {recoveryToken: null, password: hash});
       return { message: 'password changed' };

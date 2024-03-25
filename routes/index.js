@@ -2,6 +2,10 @@ const express = require('express');
 const usersRouter = require('./users.router');
 const customersRouter = require('./customers.router');
 const authRouter = require('./auth.router');
+const companiesRouter = require('./companies.router');
+const formTemplatesRouter = require('./formTemplates.router');
+const formRouter = require('./form.router');
+const pdfRouter = require('./pdf.router');
 
 
 function routerApi(app) {
@@ -10,6 +14,11 @@ function routerApi(app) {
   router.use('/users', usersRouter);
   router.use('/customers', customersRouter);
   router.use('/auth', authRouter);
+  router.use('/companies', companiesRouter);
+  router.use('/form-templates', formTemplatesRouter);
+  router.use('/forms', formRouter);
+  router.use('/pdf', pdfRouter);
+
 }
 
 module.exports = routerApi;
