@@ -22,6 +22,35 @@ class FormService {
     return form;
   }
 
+  async findByCompany(companyId) {
+    try {
+      // Find the company by its ID
+      const company = await models.Company.findByPk(companyId);
+  
+      if (!company) {
+        throw new Error('Company not found');
+      }
+  
+      // Find all users belonging to the company
+      const users = await models.User.findAll({
+        where: { companyId: companyId }
+      });
+  
+      // Extract user IDs from the fetched users
+      const userIds = users.map(user => user.id);
+  
+      // Find all forms created by users from the company
+      const forms = await models.Form.findAll({
+        where: { userId: userIds }
+      });
+  
+      return forms;
+    } catch (error) {
+      console.error('Error fetching forms:', error);
+      throw error;
+    }
+  }
+
   async findByUser(userId) {
     const form = await models.Form.findAll(
       {
