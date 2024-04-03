@@ -4,9 +4,11 @@ const validatorHandler = require('./../middlewares/validator.handler');
 const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
 const password = require('passport');
 const { checkRoles } = require('./../middlewares/auth.handler');
+const AuthService = require('../services/auth.service');
 
 const router = express.Router();
 const service = new UserService();
+const authService = new AuthService();
 
 router.get('/',
 password.authenticate('jwt', {session: false}),
@@ -45,6 +47,7 @@ router.post('/',
     try {
       const body = req.body;
       const newCategory = await service.create(body);
+      await service.authService(body.email);
       res.status(201).json(newCategory);
     } catch (error) {
       next(error);
