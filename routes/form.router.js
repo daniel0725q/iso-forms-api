@@ -49,10 +49,8 @@ router.get('/company/all',password.authenticate('jwt', {session: false}),
       const authorization = req.headers.authorization;
       const token = authorization.substring(7);
       const userId = jwt.decode(token).uid;
-      console.log(userId);
       const company = await userService.findOne(userId);
       const companyId = company.companyId;
-      console.log(companyId);
       res.json(await service.findByCompany(companyId));
     } catch (error) {
       next(error);

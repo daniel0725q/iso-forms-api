@@ -25,7 +25,6 @@ class AuthService {
 
   async signToken(user) {
     const u = await service.findOne(user);
-    console.log(u);
     const payload = {
       uid: u.id,
       role: u.roleId
@@ -44,7 +43,7 @@ class AuthService {
     }
     const payload = { sub: user.id };
     const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
-    const link = `http://localhost:3000/change-password?token=${token}`;
+    const link = `${config.frontendUrl}/change-password?token=${token}`;
     await service.update(user.id, {recoveryToken: token});
     const mail = {
       from: config.smtpEmail,
@@ -79,7 +78,6 @@ class AuthService {
       if (!matches) {
         throw boom.internal();
       }
-      console.log(matches);
       const hash = await bcrypt.hash(newPassword, 10);
       await service.update(user.id, {recoveryToken: null, password: hash});
       return { message: 'password changed' };

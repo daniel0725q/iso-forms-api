@@ -3,7 +3,7 @@ const FormTemplateService = require('../services/formTemplates.service');
 const validationHandler = require('../middlewares/validator.handler');
 const password = require('passport');
 const { checkRoles } = require('./../middlewares/auth.handler');
-const { createFormTemplateSchema, getFormTemplateSchema, updateFormTemplateSchema } = require('../schemas/formTemplate.schema');
+const { createFormTemplateSchema, getFormTemplateSchema, updateFormTemplateSchema, copyFormTemplateSchema } = require('../schemas/formTemplate.schema');
 
 const router = express.Router();
 const service = new FormTemplateService();
@@ -42,6 +42,25 @@ checkRoles(1),
   }
 );
 
+router.post('/:id/copy',
+password.authenticate('jwt', {session: false}),
+checkRoles(1),
+  validationHandler(copyFormTemplateSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const formId = body.id;
+      console.log(formId);
+      const form = await service.findOne(formId);
+      body.form = form.form;
+      delete body.id;
+      res.status(201).json(await service.create(body));
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 router.patch('/:id',
   validationHandler(getFormTemplateSchema, 'params'),
@@ -50,7 +69,6 @@ router.patch('/:id',
     try {
       const { id } = req.params;
       const body = req.body;
-      console.log(body);
       res.status(201).json(await service.update(id, body));
     } catch (error) {
       next(error);

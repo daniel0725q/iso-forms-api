@@ -38,23 +38,30 @@ router.post('/generate',
       const userId = await jwt.decode(token).uid;
 
       const user = await userService.findOne(userId);
-      console.log(user.company.logo)
 
-      const setOptions = (options, myUser) => {
-        return {
+      let options = {
         format: 'A4', // Set page size as A4
-        header: {
-          height: '100px',
-        }
-    }
-    };
-        const { html, options } = req.body;
-        pdf.create(html, setOptions(options, user)).toBuffer((err, buffer) => {
+        base: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
+      };
+      
+      const { html, styles } = req.body;
+      const newhtml = '<html>' +
+        '<head>' +
+          '<style>' +
+            '* {font-size: 11px;font-family: "Arial Narrow", Arial, sans-serif;}' + 
+            'table {border: 1px solid black;width: 100%;}' +
+            'td {border: 1px solid black;text-align: center}' +
+            'body {margin: 5%;}' +
+          '</style>' +
+        '</head>' +
+        '<body>' + html + '</body>' + 
+      '</html>';
+
+      pdf.create(newhtml, options).toBuffer((err, buffer) => {
         if (err) {
             return res.status(500).send('Error generating PDF');
         }
 
-        // Send PDF as response
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=example.pdf');
         res.send(buffer);

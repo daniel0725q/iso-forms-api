@@ -14,9 +14,13 @@ const createFormSchema = Joi.object({
   formId: formId.required(),
 });
 
+const copyFormSchema = Joi.object({
+  formId: formId.required(),
+});
+
 const updateFormSchema = Joi.object({
   data: data.required(),
   formId: formId.required()
 });
 
-module.exports = { getFormSchema, createFormSchema, updateFormSchema };
+module.exports = { getFormSchema, createFormSchema, updateFormSchema, copyFormSchema };
