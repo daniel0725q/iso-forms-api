@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { COMPANY_TABLE } = require('./company.model')
 
 const FORM_TEMPLATE_TABLE = 'form_templates';
 
@@ -28,6 +29,17 @@ const FormTemplateSchema = {
   type: {
     allowNull: false,
     type: Sequelize.DataTypes.INTEGER
+  },
+  companyId: {
+    field: 'company_id',
+    allowNull: true,
+    type: Sequelize.DataTypes.INTEGER,
+    references: {
+      model: COMPANY_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   }
 }
 
@@ -37,6 +49,10 @@ class FormTemplate extends Model {
       foreignKey: 'user_id',
       as: 'user'
     });
+    this.belongsTo(models.Company, {
+      foreignKey: 'company_id',
+      as: 'company'
+    })
   }
   static config(sequelize) {
     return {

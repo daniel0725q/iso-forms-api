@@ -19,6 +19,15 @@ const createFormTemplateSchema = Joi.object({
   type: type.required()
 });
 
+const copyFormTemplateSchema = Joi.object({
+  id: id.required(),
+  version: version.required(),
+  title: title.required(),
+  code: code.required(),
+  type: type.required(),
+  form: form.required()
+});
+
 const updateFormTemplateSchema = Joi.object({
     version: version.required(),
     form: form.required(),
@@ -27,4 +36,4 @@ const updateFormTemplateSchema = Joi.object({
     type: type.required()
 });
 
-module.exports = { getFormTemplateSchema, createFormTemplateSchema, updateFormTemplateSchema };
+module.exports = { getFormTemplateSchema, createFormTemplateSchema, updateFormTemplateSchema, copyFormTemplateSchema };

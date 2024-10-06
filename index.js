@@ -9,13 +9,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json({ limit: '200000kb' }));
 
-const whitelist = ['http://localhost:8080', 'https://myapp.co', 'http://localhost:3000', 'http://127.0.0.1:8080'];
+const whitelist = ['http://localhost:8080', 'https://app.gsintegralsas.com', '.awsapprunner.com', 'http://localhost:3000', 'http://127.0.0.1:8080'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('no permitido'));
+
+      callback(new Error('no permitido ' + origin));
     }
   }
 }

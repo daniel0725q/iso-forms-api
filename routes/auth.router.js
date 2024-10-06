@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 
 const AuthService = require('./../services/auth.service');
 const validatorHandler = require('../middlewares/validator.handler'),{

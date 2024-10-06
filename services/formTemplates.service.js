@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const Sequelize = require('sequelize');
 const { models } = require('../libs/sequelize');
 
 class FormTemplateService {
@@ -7,6 +8,16 @@ class FormTemplateService {
 
   async find() {
     const rta = await models.FormTemplate.findAll();
+    return rta;
+  }
+
+  async find(company) {
+    const rta = await models.FormTemplate.findAll({
+      where: Sequelize.or(
+        { companyId: null },
+        { companyId: company }
+      )
+    });
     return rta;
   }
 

@@ -4,7 +4,7 @@ const setupModels = require('./../db/models');
 
 const options = {
   dialect: 'postgres',
-  logging: config.isProd ? false : (msg) => { console.log(msg); }, // Utiliza una función de registro personalizada en entornos de desarrollo
+  logging: config.isProd ? false : (msg) => { }, // Utiliza una función de registro personalizada en entornos de desarrollo
 }
 
 if (config.isProd) {
