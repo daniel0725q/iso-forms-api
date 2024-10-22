@@ -1,49 +1,40 @@
 'use strict';
+const { where } = require('sequelize');
+const { ROLE_TABLE } = require('./../models/role.model');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Actualizamos los nombres de los roles existentes a español
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'administrador' }, 
-      { name: 'admin' }
+    await queryInterface.bulkUpdate(ROLE_TABLE, 
+      {
+        name: 'Administrador',
+       },
+      { 
+        id: 1
+      }
     );
 
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'operador' }, 
-      { name: 'operator' }
+    await queryInterface.bulkUpdate(ROLE_TABLE, 
+      {
+        name: 'Operador'
+       },
+      {
+        id: 2
+      }
     );
 
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'Diligenciador' }, 
-      { name: 'signer' }
+    await queryInterface.bulkUpdate(ROLE_TABLE, 
+      {
+        name: 'Diligenciador'
+       },
+      {id: 3
+      }
     );
 
     // Agregamos un nuevo rol llamado espectador
-    await queryInterface.bulkInsert('Roles', [
-      { name: 'espectador' }
+    await queryInterface.bulkInsert(ROLE_TABLE, [
+      { name: 'Espectador'
+       }
     ], {});
   },
-
-  down: async (queryInterface, Sequelize) => {
-    // Revertimos los cambios a los nombres originales en inglés
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'admin' }, 
-      { name: 'administrador' }
-    );
-
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'operator' }, 
-      { name: 'operador' }
-    );
-
-    await queryInterface.bulkUpdate('Roles', 
-      { name: 'signer' }, 
-      { name: 'Diligenciador' }
-    );
-
-    // Eliminamos el rol 'espectador'
-    await queryInterface.bulkDelete('Roles', 
-      { name: 'espectador' }
-    );
-  }
 };
