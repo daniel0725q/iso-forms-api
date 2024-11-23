@@ -31,6 +31,17 @@ router.get('/:id',password.authenticate('jwt', {session: false}),
     }
 });
 
+router.get('/template/:id',password.authenticate('jwt', {session: false}),
+  validationHandler(getFormSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      res.json(await service.findByTemplateId(id));
+    } catch (error) {
+      next(error);
+    }
+});
+
 router.get('/mine/:id',password.authenticate('jwt', {session: false}),
   async (req, res, next) => {
     try {
@@ -68,6 +79,8 @@ password.authenticate('jwt', {session: false}),
       const token = authorization.substring(7);
       const userId = jwt.decode(token).uid;
       const body = req.body;
+      body.createdDate = new Date();
+      body.version = (!body.version) ? 1 : body.version;
       delete body.id;
       body.userId = userId;
       res.status(201).json(await service.create(body));
@@ -84,9 +97,16 @@ router.patch('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const body = {};
-      body.data = req.body.data;
-      res.status(201).json(await service.update(id, body));
+      const authorization = req.headers.authorization;
+      const token = authorization.substring(7);
+      const userId = jwt.decode(token).uid;
+      const body = req.body.data;
+      body.formId = parseInt(id);
+      body.userId = userId;
+      delete body.id;
+      delete body.companyId;
+      console.log(body)
+      res.status(201).json(await service.create(body));
     } catch (error) {
       next(error);
     }

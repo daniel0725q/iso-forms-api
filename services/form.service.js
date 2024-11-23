@@ -22,6 +22,16 @@ class FormService {
     return form;
   }
 
+  async findByTemplateId(id) {
+    const form = await models.Form.findAll({where: {
+      formId: id
+    }});
+    if (!form) {
+      throw boom.notFound('customer not found');
+    }
+    return form;
+  }
+
   async findByCompany(companyId) {
     try {
       // Find the company by its ID

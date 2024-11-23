@@ -16,7 +16,7 @@ module.exports = {
 
     await queryInterface.bulkUpdate(ROLE_TABLE, 
       {
-        name: 'Operador'
+        name: 'Supervisor'
        },
       {
         id: 2

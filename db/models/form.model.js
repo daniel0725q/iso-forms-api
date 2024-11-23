@@ -37,6 +37,22 @@ const FormSchema = {
       },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL'
+    },
+    version: {
+      field: 'version',
+      allowNull: false,
+      type: Sequelize.DataTypes.INTEGER,
+      unique: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    },
+    createdDate: {
+      field: 'created_date',
+      allowNull: false,
+      type: Sequelize.DataTypes.DATE,
+      unique: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
     }
 }
 
