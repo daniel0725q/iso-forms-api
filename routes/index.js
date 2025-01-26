@@ -6,6 +6,7 @@ const companiesRouter = require('./companies.router');
 const formTemplatesRouter = require('./formTemplates.router');
 const formRouter = require('./form.router');
 const pdfRouter = require('./pdf.router');
+const diagramRouter = require('./diagram.router');
 
 
 function routerApi(app) {
@@ -18,6 +19,7 @@ function routerApi(app) {
   router.use('/form-templates', formTemplatesRouter);
   router.use('/forms', formRouter);
   router.use('/pdf', pdfRouter);
+  router.use('/diagrams', diagramRouter);
 
 }
 
