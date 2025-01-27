@@ -6,6 +6,7 @@ const { Company } = require('./company.model');
 const { FormTemplate, FormTemplateSchema } = require('./formTemplate.model');
 const { Form, FormSchema } = require('./form.model');
 const { Diagram, DiagramSchema } = require('./diagram.model');
+const { Payment, PaymentSchema } = require('./payment.model');
 
 
 function setupModels(sequelize) {
@@ -21,6 +22,8 @@ function setupModels(sequelize) {
   Form.associate(sequelize.models);
   Diagram.init(DiagramSchema, Diagram.config(sequelize));
   Diagram.associate(sequelize.models);
+  Payment.init(PaymentSchema, Payment.config(sequelize));
+  Payment.associate(sequelize.models);
 }
 
 module.exports = setupModels;

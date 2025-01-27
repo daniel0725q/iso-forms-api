@@ -22,7 +22,7 @@ class DiagramService {
     if (!diagram) {
       throw boom.notFound('Diagram not found');
     }
-    if (diagram.companyId !== companyId) {
+    if (diagram.companyId != companyId) {
       throw boom.forbidden('You do not have access to this resource');
     }
     return diagram;
@@ -30,7 +30,8 @@ class DiagramService {
 
   async update(id, changes, companyId) {
     const diagram = await this.findOne(id);
-    if (diagram.companyId !== changes.companyId) {
+    console.log(diagram);
+    if (diagram.companyId != companyId) {
       throw boom.forbidden('You do not have access to this resource');
     }
     const rta = await diagram.update(changes);

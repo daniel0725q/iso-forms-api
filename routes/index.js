@@ -7,6 +7,7 @@ const formTemplatesRouter = require('./formTemplates.router');
 const formRouter = require('./form.router');
 const pdfRouter = require('./pdf.router');
 const diagramRouter = require('./diagram.router');
+const paymentRouter = require('./payment.router');
 
 
 function routerApi(app) {
@@ -20,7 +21,7 @@ function routerApi(app) {
   router.use('/forms', formRouter);
   router.use('/pdf', pdfRouter);
   router.use('/diagrams', diagramRouter);
-
+  router.use('/payments', paymentRouter);
 }
 
 module.exports = routerApi;

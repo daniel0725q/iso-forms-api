@@ -8,7 +8,6 @@ const createDiagramSchema = Joi.object({
 });
 
 const updateDiagramSchema = Joi.object({
-  id,
   xml
 });
 
