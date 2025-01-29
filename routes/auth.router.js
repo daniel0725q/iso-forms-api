@@ -80,4 +80,17 @@ validatorHandler(isAdminAuthSchema, 'body'),
   }
 );
 
+router.post('/is-operator',
+  validatorHandler(isAdminAuthSchema, 'body'),
+    async (req, res, next) => {
+      try {
+        const { token } = req.body;
+        const rta = await service.isOperator(token);
+        res.json(rta);
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
 module.exports = router;

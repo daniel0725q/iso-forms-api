@@ -92,7 +92,18 @@ class AuthService {
       const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.uid);
       
-      return { isAdmin: user.roleId == 1 || user.roleId == 2};
+      return { isAdmin: user.roleId == 1};
+    } catch (error) {
+      throw boom.unauthorized();
+    }
+  }
+
+  async isOperator(token) {
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await service.findOne(payload.uid);
+      
+      return { isOperator: user.roleId == 2};
     } catch (error) {
       throw boom.unauthorized();
     }
