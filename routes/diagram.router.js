@@ -69,11 +69,14 @@ router.patch('/:id',
   async (req, res, next) => {
     try {
       const { id } = req.params;
+      console.log(id);
       const authorization = req.headers.authorization;
       const token = authorization.substring(7);
       const userId = jwt.decode(token).uid;
       const companyId = jwt.decode(token).company;
+      console.log(companyId);
       const body = req.body;
+      console.log(req.body);
       const diagram = await service.update(id, body, companyId);
       res.json(diagram);
     } catch (error) {

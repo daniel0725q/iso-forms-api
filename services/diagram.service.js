@@ -29,8 +29,11 @@ class DiagramService {
   }
 
   async update(id, changes, companyId) {
-    const diagram = await this.findOne(id);
-    console.log(diagram);
+    console.log("id-->" + id);
+    const diagram = await models.Diagram.findByPk(id);
+    console.log("HELLO", diagram);
+    diagram.xml = changes.xml;
+    console.log("-->" +diagram.companyId);
     if (diagram.companyId != companyId) {
       throw boom.forbidden('You do not have access to this resource');
     }
